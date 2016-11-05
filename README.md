@@ -20,4 +20,30 @@
 			* write /dev/null
 
 
+# 在ThinkdPad-X220，搭配intel i5-2520M CPU，操作系统为Ubuntu 16.10 64bit
+
+loop cost: 0.006350us	clock func cost: 0.030847us
+
+benchmark on Operating system entry
+===================================do
+getpid() cost: 0.006010us
+getppid() cost: 0.049570us
+write 1 byte to /dev/null cost: 0.086910us
+read 1 byte from /dev/zero cost: 0.123290us
+
+==============end==================
+
+benchmark on Creating Process
+=================================do
+fork+exit cost: 72.923700us
+fork+exec cost: 306.169600us
+swap_ucontext cost: 0.421900us
+
+==============end==================
+
+benchmark on Bandwidth of Pipe
+=================================do
+bandwidth of pipe: 1956.343357 MB/s
+
+==============end==================
 
