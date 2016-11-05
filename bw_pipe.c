@@ -1,15 +1,16 @@
 
 #include "bw_pipe.h"
 
-#define TARGETLEN 4294967296
 #define BUFLEN 16*1024*1024
+
+const size_t TARGETLEN = 256 * 1024 * 1024;
 
 void writer(int fd, char *buf, int buflen) {
 	size_t n = 0, done = 0;
 	while(1) {
 		done = 0;
 		for( ; done < buflen; done+=n) {
-			if((n = write(fd, buf + n, buflen - n)) < 0) {
+			if((n = write(fd, buf, buflen)) < 0) {
 				perror("write pipe error");
 				exit(1);
 			}	
@@ -45,7 +46,7 @@ void do_bw_pipe_prepare(pipe_state_t *state) {
 				exit(1);
 			}
 			close(state->fd[0]);
-			writer(state->fd[1], state->buf, BUFLEN);
+			writer(state->fd[1], state->buf, state->wlen);
 			break;
 		case -1:
 			perror("create child process error");
@@ -92,13 +93,13 @@ void save_bw_result(bw_result_t *ret, int index, unsigned long elapse, unsigned 
 double get_bandwidth(unsigned long elapse, unsigned long volume) {
 	if(elapse <= 0)
 		return -1;
-	return volume * 1. / (elapse / 1000000.0) / (1024*1024);
+	return volume * 1. / (1024*1024) / (elapse / 1000000.0);
 }
 
 double get_bw_pipe(pipe_state_t *state) {
 	struct timespec st, ed;
 	unsigned long elapse;
-	int loopcnt, loop = 20;
+	int loopcnt, loop = 40;
 	int index = loop >> 2;
 
 	bw_result_t *r = (bw_result_t *)malloc(sizeof(bw_result_t) * loop);
@@ -119,8 +120,9 @@ double get_bw_pipe(pipe_state_t *state) {
 		if(state->cooldown)
 			state->cooldown(state);
 	}
-
 	qsort(r, loop, sizeof(bw_result_t ), cmp_bw_result);
+//	for(int i=0; i<loop; i++)
+//		printf("%ld\n", r[i].elapse);
 	double bandwidth = get_bandwidth(r[index].elapse, r[index].volume);
 	return bandwidth;
 }
@@ -134,7 +136,11 @@ void bench_bandwidth_pipe() {
 	state.prepare = do_bw_pipe_prepare;
 	state.bench = do_bench_bandwidth_pipe;;
 	state.cooldown = do_bw_pipe_cooldown;
-	printf("bandwidth of pipe: %lf MB/s\n", get_bw_pipe(&state));
+
+	for(size_t len = 4*1024; len < 256*1024*1024; len = len << 1) {
+		state.wlen = len;
+		printf("blocksize: %7ldKB\tbandwidth of pipe: %lf MB/s\n", len>>10, get_bw_pipe(&state));
+	}
 
 	printf("\n--------------end--------------------\n");
 }

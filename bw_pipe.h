@@ -6,6 +6,7 @@ typedef struct p_state_t {
 	int fd[2];
 	char *buf;
 	int childpid;
+	size_t wlen;
 	bench_f prepare;
 	bench_f bench;
 	bench_f cooldown;
