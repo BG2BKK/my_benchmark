@@ -1,7 +1,7 @@
 CC = gcc
 LD = gcc
-CFLAGS = -c -O 
-LDFLAGS =
+CFLAGS = -c -O -D_GNU_SOURCE 
+LDFLAGS = 
   
 SRCS = $(wildcard *.c)  
 OBJS = $(patsubst %c, %o, $(SRCS))  

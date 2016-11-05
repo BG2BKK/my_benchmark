@@ -37,9 +37,19 @@ void do_bw_pipe_prepare(pipe_state_t *state) {
 		perror("pipe create error");
 		exit(1);
 	}
+
+	cpu_set_t mask_set, c_mask_set;
+	CPU_ZERO(&mask_set);
+	CPU_SET(1, &mask_set);
+	sched_setaffinity(0, sizeof(mask_set), &mask_set);
+
 	switch((pid = fork())) {
 		case 0:
 			// child 
+			CPU_ZERO(&c_mask_set);
+			CPU_SET(3, &c_mask_set);
+			sched_setaffinity(0, sizeof(mask_set), &c_mask_set);
+
 			state->buf = (char *)malloc(sizeof(char) * BUFLEN);
 			if(!state->buf) {
 				perror("child malloc buf error");
@@ -121,8 +131,8 @@ double get_bw_pipe(pipe_state_t *state) {
 			state->cooldown(state);
 	}
 	qsort(r, loop, sizeof(bw_result_t ), cmp_bw_result);
-//	for(int i=0; i<loop; i++)
-//		printf("%ld\n", r[i].elapse);
+	//	for(int i=0; i<loop; i++)
+	//		printf("%ld\n", r[i].elapse);
 	double bandwidth = get_bandwidth(r[index].elapse, r[index].volume);
 	return bandwidth;
 }
