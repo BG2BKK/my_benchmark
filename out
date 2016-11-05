@@ -1,0 +1,369 @@
+loop cost: 0.005510us	clock func cost: 0.031664us
+3	4
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 bytes
+write 0 bytes
+write 67108864 byloop cost: 0.005510us	clock func cost: 0.031664us
+3	4
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total length: 0
+read 0 bytes	 total le
