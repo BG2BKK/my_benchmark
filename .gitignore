@@ -1,0 +1,8 @@
+*~
+*.log
+*.swp
+*.o
+*out
+*core
+
+*node_modules/
