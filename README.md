@@ -34,7 +34,7 @@ getppid() cost: 0.049570us
 write 1 byte to /dev/null cost: 0.086910us
 read 1 byte from /dev/zero cost: 0.123290us
 
-==============end==================
+--------------end------------------
 
 benchmark on Creating Process
 ===================================
@@ -42,11 +42,11 @@ fork+exit cost: 72.923700us
 fork+exec cost: 306.169600us
 swap_ucontext cost: 0.421900us
 
-==============end==================
+--------------end------------------
 
 benchmark on Bandwidth of Pipe
 ===================================
 bandwidth of pipe: 1956.343357 MB/s
 
-==============end==================
+--------------end------------------
 ```
