@@ -59,34 +59,37 @@ double get_clock_elapse() {
 
 double get_loop_elapse() {
 	struct timespec st, ed;
-	unsigned long iteration;
+	unsigned long iter, iteration;
 	long *p = (long *)&p;
 	double latency1, latency2, latency;
-	int loop = 20;
+	int loop = 100;
 	int loopcnt = loop;
 	int index = loop >> 2;
 	result_t *r_one = (result_t *)malloc(sizeof(result_t) * loop);
 	result_t *r_two = (result_t *)malloc(sizeof(result_t) * loop);
 
+//	iteration = get_iteration();
+	iteration = 1000000;
+
 	while(loopcnt --) {
-		iteration = get_iteration();
+		iter = iteration;
 		clock_gettime(CLOCK_REALTIME, &st);
-		while(iteration--) {
+		while(iter--) {
 			p = (long *)*p;
 		};
 		clock_gettime(CLOCK_REALTIME, &ed);
 		save_result(r_one, loopcnt, 
-				get_total_us(&st, &ed), get_iteration());
+				get_total_us(&st, &ed), iteration);
 
-		iteration = get_iteration();
+		iter = iteration;
 		clock_gettime(CLOCK_REALTIME, &st);
-		while(iteration--) {
+		while(iter--) {
 			p = (long *)*p;
 			p = (long *)*p;
 		};
 		clock_gettime(CLOCK_REALTIME, &ed);
 		save_result(r_two, loopcnt, 
-				get_total_us(&st, &ed), get_iteration());
+				get_total_us(&st, &ed), iteration);
 	}
 
 	qsort(r_one, loop, sizeof(result_t ), cmp_result);
@@ -97,6 +100,9 @@ double get_loop_elapse() {
 	latency = 2*latency1 - latency2;
 	if(latency < 0.0001)
 		latency = 0;
+	
+	free(r_one);
+	free(r_two);
 
 	return latency;
 }

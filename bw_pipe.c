@@ -1,47 +1,31 @@
 
-#include "bench.h"
+#include "bw_pipe.h"
 
 #define TARGETLEN 4294967296
-
-#define BUFLEN 10*1024*1024
-
-typedef struct p_state_t {
-	int fd[2];
-	char *buf;
-	int childpid;
-	bench_f prepare;
-	bench_f bench;
-	bench_f cooldown;
-
-} pipe_state_t;
-
-typedef struct bw_result {
-	unsigned long volume;
-	unsigned long elapse;
-} bw_result_t;
+#define BUFLEN 16*1024*1024
 
 void writer(int fd, char *buf, int buflen) {
-	int n = 0;
+	size_t n = 0, done = 0;
 	while(1) {
-		if((n = write(fd, buf + n, buflen - n)) < 0) {
-			perror("write pipe error");
-			exit(1);
+		done = 0;
+		for( ; done < buflen; done+=n) {
+			if((n = write(fd, buf + n, buflen - n)) < 0) {
+				perror("write pipe error");
+				exit(1);
+			}	
 		}
 	}
 }
 
 void reader(int fd, char *buf, int buflen) {
-	unsigned long read_len = 0;
-	int n = 0;
-	while(1) {
+	size_t n, done = 0;
+	while( done < TARGETLEN) {
+
 		if((n = read(fd, buf, buflen)) < 0) {
 			perror("read pipe error");
 			exit(1);
 		}
-		read_len += n;
-		if(read_len >= TARGETLEN) {
-			break;
-		}
+		done += n;
 	}
 }
 
