@@ -155,12 +155,13 @@ blocksize:  131072KB	bandwidth of pipe: 2350.025244 MB/s
 ## Operating [System Entry]
 
 ### system call 系统调用
-	* getpid
-		* 严格说来不算系统调用，Linux对它的实现是缓存起来，不用系统调用即可获得自己的pid
-	* getppid
-		* 获取父进程pid
-	
-	* [system call 详解](http://www.chongh.wiki/blog/2016/04/08/linux-syscalls/)
+
+* getpid
+	* 严格说来不算系统调用，Linux对它的实现是缓存起来，不用系统调用即可获得自己的pid
+* getppid
+	* 获取父进程pid
+
+* [system call 详解](http://www.chongh.wiki/blog/2016/04/08/linux-syscalls/)
 
 
 # benchmark 结果
@@ -194,3 +195,9 @@ bandwidth of pipe: 1956.343357 MB/s
 --------------end------------------
 ```
 
+
+TODO
+------------------
+
+* measure Cache line
+* measure TLB 

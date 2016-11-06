@@ -10,6 +10,8 @@ int main() {
 //	bench_operating_system_entry();
 //	bench_creating_process();
 //	bench_bandwidth_pipe();
-	bench_bandwidth_mem();
+//	bench_bandwidth_mem();
+
+	bench_cache_latency();
 }
 

@@ -41,6 +41,7 @@ void bench_operating_system_entry();
 void bench_creating_process();
 void bench_bandwidth_pipe();
 void bench_bandwidth_mem();
+void bench_cache_latency();
 
 #endif
 

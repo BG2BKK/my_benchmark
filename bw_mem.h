@@ -16,5 +16,8 @@ typedef struct m_state_t {
 
 double get_bw_mem(mem_state_t *state);
 void bench_bandwidth_mem();
+void do_mem_prepare(mem_state_t *state);
+void do_mem_clean(mem_state_t *state);
+void do_mem_rd(mem_state_t *state);
 
 #endif
