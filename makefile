@@ -1,6 +1,6 @@
 CC = gcc
 LD = gcc
-CFLAGS = -c -O -D_GNU_SOURCE 
+CFLAGS = -c -O -g -D_GNU_SOURCE 
 LDFLAGS = 
   
 SRCS = $(wildcard *.c)  
@@ -22,4 +22,4 @@ hello.o: hello.cpp
 
 clean:
 	rm -f *.o $(TARGET)  
-	rm *~ -f
+	rm *~ out -f
