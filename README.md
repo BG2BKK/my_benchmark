@@ -5,7 +5,11 @@
 目前主要完成
 
 * 带宽 Bandwidth
+	* Memory
+		* read
+		* write
 	* Pipe 
+		* interact with parent and child process
 
 * 时延 Latency
 	* create Process
@@ -25,8 +29,13 @@
 
 测试内存带宽的意义在于衡量计算机系统内，从主存中，经过各级存储和缓存将数据读到CPU的能力。在测试内存带宽的过程中，采用不同大小的数据块，将数据块内每个元素读入CPU，进行测试，可以大致得出各级存储的带宽。
 
-下表是Memory Read的读性能，可以看到当数据块大小为4KB~32KB时，带宽明显高于64KB数据块，因为当前CPU的L1 Cache大小为32KB，使用较小数据块时，尤其在循环读写的过程中，可以充分享受L1 Cache带来的红利；一旦数据块大小超过L2 Cache，由于L1 Cache发生Conlict，带宽下降；随后在数据块大小达到L2 Cache的256KB和L3 Cache的3072KB时都会有带宽的跳变；由于L1和L2关系亲密，访问速度和容量的差别在10倍以内，所以L1 miss时L2可以将数据稳定在50000MB/s；而当数据接近L3 Cache时，由于L3访问速度慢，且容量较大，因此此时较多的体现的是L3的速度，并且在数据块增大并较多的引起高速缓存失效时，访问带宽接近于从主存中读取数据。
+* 读内存带宽
+	* 下表是Memory Read的读性能，可以看到当数据块大小为4KB~32KB时，带宽明显高于64KB数据块，因为当前CPU的L1 Cache大小为32KB，使用较小数据块时，尤其在循环读写的过程中，可以充分享受L1 Cache带来的红利；
+	* 一旦数据块大小超过L2 Cache，由于L1 Cache发生Conlict，带宽下降；随后在数据块大小达到L2 Cache的256KB和L3 Cache的3072KB时都会有带宽的跳变；
+	* 由于L1和L2关系亲密，访问速度和容量的差别在10倍以内，所以L1 miss时L2可以将数据稳定在50000MB/s；
+	* 而当数据接近L3 Cache时，由于L3访问速度慢，且容量较大，因此此时较多的体现的是L3的速度，并且在数据块增大并较多的引起高速缓存失效时，访问带宽接近于从主存中读取数据。
 
+* 写内存带宽
 
 ```bash
 benchmark on Bandwidth of Memory
@@ -55,6 +64,27 @@ benchmark on Bandwidth of Memory
 	blocksize:   32768KB	bandwidth of mem read: 16737.222340 MB/s
 	blocksize:   65536KB	bandwidth of mem read: 16818.868668 MB/s
 	blocksize:  131072KB	bandwidth of mem read: 16860.962919 MB/s
+
+
+	Bandwidth of Memory Write
+
+	blocksize:       4KB	bandwidth of mem write: 45464.636150 MB/s
+	blocksize:       8KB	bandwidth of mem write: 45636.866031 MB/s
+	blocksize:      16KB	bandwidth of mem write: 45096.225833 MB/s
+	blocksize:      32KB	bandwidth of mem write: 37205.246521 MB/s
+	blocksize:      64KB	bandwidth of mem write: 27972.027972 MB/s
+	blocksize:     128KB	bandwidth of mem write: 27495.838032 MB/s
+	blocksize:     256KB	bandwidth of mem write: 26442.183546 MB/s
+	blocksize:     512KB	bandwidth of mem write: 21045.276116 MB/s
+	blocksize:    1024KB	bandwidth of mem write: 20297.726417 MB/s
+	blocksize:    2048KB	bandwidth of mem write: 18696.707992 MB/s
+	blocksize:    4096KB	bandwidth of mem write: 11184.045260 MB/s
+	blocksize:    8192KB	bandwidth of mem write: 9729.493477 MB/s
+	blocksize:   16384KB	bandwidth of mem write: 9825.086593 MB/s
+	blocksize:   32768KB	bandwidth of mem write: 9860.375542 MB/s
+	blocksize:   65536KB	bandwidth of mem write: 9885.314901 MB/s
+	blocksize:  131072KB	bandwidth of mem write: 9905.204101 MB/s
+
 ```
 
 ## Pipe带宽
