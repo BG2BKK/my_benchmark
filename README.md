@@ -33,12 +33,17 @@
 	* 下表是Memory Read的读性能，可以看到当数据块大小为4KB~32KB时，带宽明显高于64KB数据块，因为当前CPU的L1 Cache大小为32KB，使用较小数据块时，尤其在循环读写的过程中，可以充分享受L1 Cache带来的红利；
 	* 一旦数据块大小超过L2 Cache，由于L1 Cache发生Conlict，带宽下降；随后在数据块大小达到L2 Cache的256KB和L3 Cache的3072KB时都会有带宽的跳变；
 	* 由于L1和L2关系亲密，访问速度和容量的差别在10倍以内，所以L1 miss时L2可以将数据稳定在50000MB/s；
-	* 而当数据接近L3 Cache时，由于L3访问速度慢，且容量较大，因此此时较多的体现的是L3的速度，并且在数据块增大并较多的引起高速缓存失效时，访问带宽接近于从主存中读取数据。
+	* 而当数据接近L3 Cache时，由于L3访问速度慢，且容量较大，而且是共享的，因此此时较多的体现的是L3的速度，并且在数据块增大并较多的引起高速缓存失效时，访问带宽接近于从主存中读取数据。
+
+* 目前存在的顾虑
+	* 数据块4KB大小时的测试带宽是74036MB/s，~~平均每ns读取78Byte，对于睿频达3GHz的CPU而言，相当于每个cycle读取26B，如何解释呢，~~ CPU每次从L1 Cache读取数据以cache line为单位
+	* 做bench过程中，各级存储是怎样起作用的，毕竟系统总线PCIE也才10GB/s的带宽，测试达到这个数据量的话一定是cache起到很大作用
 
 * 读内存过程
 	* [CPU读数据的一系列过程](http://yuhaozhu.com/CacheMemory.pdf)
 	* [What Your Computer Dos While You Wait](http://duartes.org/gustavo/blog/post/what-your-computer-does-while-you-wait/)
 	* [译文](http://www.cnblogs.com/xkfz007/archive/2012/10/08/2715163.html)
+	* [intel: Cache相关的问题](https://software.intel.com/sites/default/files/m/1/1/7/0/a/12645-6.7__Cache_e7_9b_b8_e5_85_b3_e9_97_ae_e9_a2_98.pdf)
 
 * 写内存带宽
 
@@ -145,6 +150,17 @@ blocksize:  131072KB	bandwidth of pipe: 2350.025244 MB/s
 --------------end--------------------
 
 ```
+
+
+## Operating [System Entry]
+
+### system call 系统调用
+	* getpid
+		* 严格说来不算系统调用，Linux对它的实现是缓存起来，不用系统调用即可获得自己的pid
+	* getppid
+		* 获取父进程pid
+	
+	* [system call 详解](http://www.chongh.wiki/blog/2016/04/08/linux-syscalls/)
 
 
 # benchmark 结果

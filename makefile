@@ -22,4 +22,4 @@ hello.o: hello.cpp
 
 clean:
 	rm -f *.o $(TARGET)  
-	rm *~ out -f
+	rm *~ out core* -f
