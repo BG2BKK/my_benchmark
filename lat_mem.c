@@ -103,16 +103,17 @@ double bench_l1_latency() {
 	size_t strides[] = {64, 1024, 4096, 8192};
 	size_t buflen = 1024*1024; // 1024KB
 
+	printf("\tBandwidth of Latency of L1 Cache\n\n");
 	for(int i=0; i < sizeof(strides)/sizeof(size_t); i++) {
 		size_t stride = strides[i];
 		for(size_t len = 1024; len <= buflen; len = l1_step(len)) {
 			if(stride < len) {
 				state.buflen = len;
 				state.stride = stride;
-				printf("buflen = %5luKB\tstride =  %4lu\tL1 Cache Latency: %lfns\n", len >> 10, stride, get_cache_latency(&state));
+				printf("\tbuflen = %5luKB\tstride =  %4lu\tL1 Cache Latency: %lfns\n", len >> 10, stride, get_cache_latency(&state));
 			}
 		}
-		printf("=====================\n");
+		printf("\n");
 	}
 }
 
@@ -140,16 +141,17 @@ double bench_l2_latency() {
 	size_t strides[] = {4096, 8192, 16384};
 	size_t buflen = 8*1024*1024; // 1024KB
 
+	printf("\tBandwidth of Latency of L2 Cache\n\n");
 	for(int i=0; i < sizeof(strides)/sizeof(size_t); i++) {
 		size_t stride = strides[i];
 		for(size_t len = 32*1024; len <= buflen; len = l2_step(len)) {
 			if(stride < len) {
 				state.buflen = len;
 				state.stride = stride;
-				printf("buflen = %5luKB\tstride =  %4lu\tL2 Cache Latency: %lfns\n", len >> 10, stride, get_cache_latency(&state));
+				printf("\tbuflen = %5luKB\tstride =  %4lu\tL2 Cache Latency: %lfns\n", len >> 10, stride, get_cache_latency(&state));
 			}
 		}
-		printf("=====================\n");
+		printf("\n");
 	}
 }
 
@@ -175,6 +177,8 @@ double bench_l3_latency() {
 	state.cooldown = do_l1_cooldown;
 	size_t strides[] = {4096, 8192, 16384};
 
+	printf("\tBandwidth of Latency of L3 Cache\n\n");
+
 	size_t buflen = 32*1024*1024; // 1024KB
 	for(int i=0; i < sizeof(strides)/sizeof(size_t); i++) {
 		size_t stride = strides[i];
@@ -182,17 +186,20 @@ double bench_l3_latency() {
 			if(stride < len) {
 				state.buflen = len;
 				state.stride = stride;
-				printf("buflen = %6luKB\tstride = %6lu\tL3 Cache Latency: %lfns\n", len >> 10, stride, get_cache_latency(&state));
+				printf("\tbuflen = %6luKB\tstride = %6lu\tL3 Cache Latency: %lfns\n", len >> 10, stride, get_cache_latency(&state));
 			}
 		}
-		printf("=====================\n");
+		printf("\n");
 	}
 }
+
 void bench_cache_latency() {
 	printf("\nbenchmark on Cache Latency\n");
 	printf("-------------------------------------\n");
 
+	bench_l1_latency();
 	bench_l2_latency();
+	bench_l3_latency();
 
 	printf("\n--------------end--------------------\n");
 }

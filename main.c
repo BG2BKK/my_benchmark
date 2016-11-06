@@ -12,6 +12,6 @@ int main() {
 	bench_bandwidth_pipe();
 	bench_bandwidth_mem();
 
-//	bench_cache_latency();
+	bench_cache_latency();
 }
 
