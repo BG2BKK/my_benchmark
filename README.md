@@ -215,6 +215,7 @@ swap_ucontext cost: 0.421900us
 
 由下表可以看出，内存块大小在32KB和64KB间延时明显增大，结合本机的32KB L1 Cache可以得出结论 L1 Cache的latency为1.338ns，约合4个cpu cycle（本机主频可达3GHz），这与intel芯片手册相符。
 
+
 ```bash
 benchmark on Cache Latency
 -------------------------------------
@@ -267,7 +268,144 @@ buflen =   832KB	stride =  8192	L1 Cache Latency: 8.372600ns
 
 ### L2 Cache Latency
 
+本机的L2 Cache是256KB，可以从下表中发现，数据块大小大于L1 Cache，小于L2 Cache时，访问速度稳定在4ns，约11个cycle，符合预期。
+
+4KB的stride是非常好用的，对于Cache Line为64B的各级Cache，4KB可以在循环中频繁触发Cache替换，对于我用多种规模数据测试有很大帮助。比如测量L1 Cache时采用总共32KB数据，完全填充在L1 Cache中，测量L1的时延；而在数据块能完全填充在L2 Cache中却大于L1时，由于频繁的Cache miss，CPU需要从L2中将数据读出，因此此时可以认为测试的是L2 Cache。
+
+```
+benchmark on Cache Latency
+-------------------------------------
+buflen =    32KB	stride =  4096	L2 Cache Latency: 1.337800ns
+buflen =    64KB	stride =  4096	L2 Cache Latency: 4.022700ns
+buflen =   128KB	stride =  4096	L2 Cache Latency: 4.018500ns
+buflen =   160KB	stride =  4096	L2 Cache Latency: 4.023900ns
+buflen =   192KB	stride =  4096	L2 Cache Latency: 4.999700ns
+buflen =   224KB	stride =  4096	L2 Cache Latency: 5.989300ns
+buflen =   256KB	stride =  4096	L2 Cache Latency: 6.592200ns
+buflen =   768KB	stride =  4096	L2 Cache Latency: 11.040700ns
+buflen =  1280KB	stride =  4096	L2 Cache Latency: 10.422100ns
+buflen =  1792KB	stride =  4096	L2 Cache Latency: 10.119700ns
+buflen =  2304KB	stride =  4096	L2 Cache Latency: 11.141800ns
+buflen =  3328KB	stride =  4096	L2 Cache Latency: 34.722800ns
+buflen =  4352KB	stride =  4096	L2 Cache Latency: 48.896900ns
+buflen =  6400KB	stride =  4096	L2 Cache Latency: 52.685000ns
+=====================
+buflen =    32KB	stride =  8192	L2 Cache Latency: 1.337700ns
+buflen =    64KB	stride =  8192	L2 Cache Latency: 1.337700ns
+buflen =   128KB	stride =  8192	L2 Cache Latency: 3.989400ns
+buflen =   160KB	stride =  8192	L2 Cache Latency: 4.022500ns
+buflen =   192KB	stride =  8192	L2 Cache Latency: 4.018800ns
+buflen =   224KB	stride =  8192	L2 Cache Latency: 4.015900ns
+buflen =   256KB	stride =  8192	L2 Cache Latency: 4.020300ns
+buflen =   768KB	stride =  8192	L2 Cache Latency: 10.251700ns
+buflen =  1280KB	stride =  8192	L2 Cache Latency: 9.881300ns
+buflen =  1792KB	stride =  8192	L2 Cache Latency: 9.596500ns
+buflen =  2304KB	stride =  8192	L2 Cache Latency: 9.562000ns
+buflen =  3328KB	stride =  8192	L2 Cache Latency: 22.131600ns
+buflen =  4352KB	stride =  8192	L2 Cache Latency: 47.491200ns
+buflen =  6400KB	stride =  8192	L2 Cache Latency: 53.915800ns
+=====================
+buflen =    32KB	stride =  16384	L2 Cache Latency: 1.337700ns
+buflen =    64KB	stride =  16384	L2 Cache Latency: 1.337700ns
+buflen =   128KB	stride =  16384	L2 Cache Latency: 1.337800ns
+buflen =   160KB	stride =  16384	L2 Cache Latency: 3.789700ns
+buflen =   192KB	stride =  16384	L2 Cache Latency: 3.995500ns
+buflen =   224KB	stride =  16384	L2 Cache Latency: 3.989400ns
+buflen =   256KB	stride =  16384	L2 Cache Latency: 4.024100ns
+buflen =   768KB	stride =  16384	L2 Cache Latency: 7.879300ns
+buflen =  1280KB	stride =  16384	L2 Cache Latency: 8.572000ns
+buflen =  1792KB	stride =  16384	L2 Cache Latency: 8.772700ns
+buflen =  2304KB	stride =  16384	L2 Cache Latency: 8.826700ns
+buflen =  3328KB	stride =  16384	L2 Cache Latency: 13.492600ns
+buflen =  4352KB	stride =  16384	L2 Cache Latency: 49.614400ns
+buflen =  6400KB	stride =  16384	L2 Cache Latency: 59.004800ns
+=====================
+
+--------------end--------------------
+```
+
 ### L3 Cache Latency
+
+* L3 Cache的测量不会显得那么准确，因此只有参考意义
+
+本机L3 Cache为3072KB，从256KB到3072KB之间可以看到访存时间稳定在10~11ns之间
+
+```bash
+benchmark on Cache Latency
+-------------------------------------
+buflen =    32KB	stride =  4096	L2 Cache Latency: 1.337800ns
+buflen =    64KB	stride =  4096	L2 Cache Latency: 4.009700ns
+buflen =   128KB	stride =  4096	L2 Cache Latency: 4.021200ns
+buflen =   160KB	stride =  4096	L2 Cache Latency: 4.024200ns
+buflen =   192KB	stride =  4096	L2 Cache Latency: 4.983700ns
+buflen =   224KB	stride =  4096	L2 Cache Latency: 5.923500ns
+buflen =   256KB	stride =  4096	L2 Cache Latency: 6.543300ns
+buflen =   512KB	stride =  4096	L2 Cache Latency: 11.435800ns
+buflen =   768KB	stride =  4096	L2 Cache Latency: 11.596700ns
+buflen =  1024KB	stride =  4096	L2 Cache Latency: 11.632400ns
+buflen =  1280KB	stride =  4096	L2 Cache Latency: 11.639400ns
+buflen =  1536KB	stride =  4096	L2 Cache Latency: 11.662100ns
+buflen =  1792KB	stride =  4096	L2 Cache Latency: 12.375600ns
+buflen =  2048KB	stride =  4096	L2 Cache Latency: 14.748800ns
+buflen =  2560KB	stride =  4096	L2 Cache Latency: 21.878800ns
+buflen =  3072KB	stride =  4096	L2 Cache Latency: 32.695100ns
+buflen =  3584KB	stride =  4096	L2 Cache Latency: 43.491900ns
+buflen =  4096KB	stride =  4096	L2 Cache Latency: 50.027200ns
+buflen =  5120KB	stride =  4096	L2 Cache Latency: 53.826100ns
+buflen =  6144KB	stride =  4096	L2 Cache Latency: 55.367800ns
+buflen =  7168KB	stride =  4096	L2 Cache Latency: 55.354000ns
+buflen =  8192KB	stride =  4096	L2 Cache Latency: 54.837900ns
+=====================
+buflen =    32KB	stride =  8192	L2 Cache Latency: 1.337800ns
+buflen =    64KB	stride =  8192	L2 Cache Latency: 1.337800ns
+buflen =   128KB	stride =  8192	L2 Cache Latency: 4.018900ns
+buflen =   160KB	stride =  8192	L2 Cache Latency: 4.021400ns
+buflen =   192KB	stride =  8192	L2 Cache Latency: 4.022200ns
+buflen =   224KB	stride =  8192	L2 Cache Latency: 4.022600ns
+buflen =   256KB	stride =  8192	L2 Cache Latency: 4.016900ns
+buflen =   512KB	stride =  8192	L2 Cache Latency: 8.304500ns
+buflen =   768KB	stride =  8192	L2 Cache Latency: 10.898900ns
+buflen =  1024KB	stride =  8192	L2 Cache Latency: 11.564300ns
+buflen =  1280KB	stride =  8192	L2 Cache Latency: 11.574900ns
+buflen =  1536KB	stride =  8192	L2 Cache Latency: 11.617000ns
+buflen =  1792KB	stride =  8192	L2 Cache Latency: 11.363700ns
+buflen =  2048KB	stride =  8192	L2 Cache Latency: 11.030500ns
+buflen =  2560KB	stride =  8192	L2 Cache Latency: 10.727900ns
+buflen =  3072KB	stride =  8192	L2 Cache Latency: 11.567700ns
+buflen =  3584KB	stride =  8192	L2 Cache Latency: 19.558400ns
+buflen =  4096KB	stride =  8192	L2 Cache Latency: 31.960000ns
+buflen =  5120KB	stride =  8192	L2 Cache Latency: 46.668400ns
+buflen =  6144KB	stride =  8192	L2 Cache Latency: 49.114400ns
+buflen =  7168KB	stride =  8192	L2 Cache Latency: 52.456800ns
+buflen =  8192KB	stride =  8192	L2 Cache Latency: 52.631700ns
+=====================
+buflen =    32KB	stride =  16384	L2 Cache Latency: 1.337800ns
+buflen =    64KB	stride =  16384	L2 Cache Latency: 1.337800ns
+buflen =   128KB	stride =  16384	L2 Cache Latency: 1.337800ns
+buflen =   160KB	stride =  16384	L2 Cache Latency: 3.898100ns
+buflen =   192KB	stride =  16384	L2 Cache Latency: 4.022800ns
+buflen =   224KB	stride =  16384	L2 Cache Latency: 4.021000ns
+buflen =   256KB	stride =  16384	L2 Cache Latency: 4.021900ns
+buflen =   512KB	stride =  16384	L2 Cache Latency: 6.362800ns
+buflen =   768KB	stride =  16384	L2 Cache Latency: 7.399500ns
+buflen =  1024KB	stride =  16384	L2 Cache Latency: 8.770800ns
+buflen =  1280KB	stride =  16384	L2 Cache Latency: 10.223000ns
+buflen =  1536KB	stride =  16384	L2 Cache Latency: 11.045300ns
+buflen =  1792KB	stride =  16384	L2 Cache Latency: 11.089800ns
+buflen =  2048KB	stride =  16384	L2 Cache Latency: 10.882700ns
+buflen =  2560KB	stride =  16384	L2 Cache Latency: 10.589700ns
+buflen =  3072KB	stride =  16384	L2 Cache Latency: 10.397600ns
+buflen =  3584KB	stride =  16384	L2 Cache Latency: 10.390000ns
+buflen =  4096KB	stride =  16384	L2 Cache Latency: 16.485300ns
+buflen =  5120KB	stride =  16384	L2 Cache Latency: 44.056700ns
+buflen =  6144KB	stride =  16384	L2 Cache Latency: 49.682600ns
+buflen =  7168KB	stride =  16384	L2 Cache Latency: 55.243400ns
+buflen =  8192KB	stride =  16384	L2 Cache Latency: 56.688400ns
+=====================
+
+--------------end--------------------
+
+```
 
 TODO
 ------------------
