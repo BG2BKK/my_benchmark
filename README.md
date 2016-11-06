@@ -1,6 +1,6 @@
 
 
-对Linux Server进行性能评估，从带宽和时延两个方面，对Linux Server的CPU、内存、操作系统和IO等指标进行评估，主要借鉴lmbench这个框架。[参考链接](https://bg2bkk.github.io/post/how%20to%20perform%20server%20performance%20evaluation/)
+对Linux Server进行性能评估，从带宽和时延两个方面，对Linux Server的CPU、内存、操作系统和IO等指标进行评估，主要借鉴lmbench这个框架。各项测量原理见[参考链接](https://bg2bkk.github.io/post/how%20to%20perform%20server%20performance%20evaluation/)
 
 目前主要完成
 
@@ -121,32 +121,12 @@ benchmark on Bandwidth of Memory
 
 ## Pipe带宽
 
-* pipe带宽的瓶颈点主要在于写操作，在单次写数据超过64KB时，带宽出现拐点；高版本的Linux Kernel中，Pipe的大小可以扩充为最大64KB，所以在单次写入pipe时以64KB为单位可以获得最大性能；read对pipe的性能影响不大；接下来还需要将pipe通信双方进程绑定到不同CPU上，减少内存切换。
+* pipe带宽的瓶颈点主要在于写操作，在单次写数据超过64KB时，带宽出现拐点；
+	* 高版本的Linux Kernel中，Pipe的大小可以扩充为最大64KB，所以在单次写入pipe时以64KB为单位可以获得最大性能；
+	* read()数据块大小与否对pipe的性能影响不大；
+	* 将pipe通信双方进程绑定到不同CPU上，避免在同一个CPU上调度导致不能时读写pipe。
 
 ```bash
-huang@ThinkPad-X220:~/workspace/my_benchmark$ ./bench 
-loop cost: 0.001673us	clock func cost: 0.029449us
-
-benchmark on Bandwidth of Pipe
--------------------------------------
-blocksize:       4KB	bandwidth of pipe: 3232.976359 MB/s
-blocksize:       8KB	bandwidth of pipe: 3585.685272 MB/s
-blocksize:      16KB	bandwidth of pipe: 3682.181693 MB/s
-blocksize:      32KB	bandwidth of pipe: 3760.447728 MB/s
-blocksize:      64KB	bandwidth of pipe: 3963.645935 MB/s
-blocksize:     128KB	bandwidth of pipe: 2567.857644 MB/s
-blocksize:     256KB	bandwidth of pipe: 2566.518958 MB/s
-blocksize:     512KB	bandwidth of pipe: 2719.296382 MB/s
-blocksize:    1024KB	bandwidth of pipe: 2647.417734 MB/s
-blocksize:    2048KB	bandwidth of pipe: 2407.780140 MB/s
-blocksize:    4096KB	bandwidth of pipe: 2384.145433 MB/s
-blocksize:    8192KB	bandwidth of pipe: 1943.826453 MB/s
-blocksize:   16384KB	bandwidth of pipe: 1906.762303 MB/s
-blocksize:   32768KB	bandwidth of pipe: 2377.215872 MB/s
-blocksize:   65536KB	bandwidth of pipe: 2375.914170 MB/s
-blocksize:  131072KB	bandwidth of pipe: 2321.174369 MB/s
-
---------------end--------------------
 huang@ThinkPad-X220:~/workspace/my_benchmark$ ./bench 
 loop cost: 0.001674us	clock func cost: 0.031215us
 
@@ -172,7 +152,6 @@ blocksize:  131072KB	bandwidth of pipe: 2350.025244 MB/s
 --------------end--------------------
 
 ```
-
 
 ## Operating [System Entry]
 

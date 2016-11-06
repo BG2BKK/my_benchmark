@@ -79,7 +79,8 @@ double get_cache_latency(lat_mem_state_t *state) {
 	return latency;
 }
 
-size_t step(size_t k) {
+size_t l1_step(size_t k) {
+
 	if (k < 16*1024) {
 		k = k * 4;
 	} else if (k < 64*1024) {
@@ -92,6 +93,7 @@ size_t step(size_t k) {
 	}
 	return (k);
 }
+
 double bench_l1_latency() {
 	lat_mem_state_t state;
 	memset(&state, 0, sizeof(lat_mem_state_t));
@@ -103,7 +105,7 @@ double bench_l1_latency() {
 
 	for(int i=0; i < sizeof(strides)/sizeof(size_t); i++) {
 		size_t stride = strides[i];
-		for(size_t len = 1024; len <= buflen; len = step(len)) {
+		for(size_t len = 1024; len <= buflen; len = l1_step(len)) {
 			if(stride < len) {
 				state.buflen = len;
 				state.stride = stride;
@@ -145,7 +147,7 @@ double bench_l3_latency() {
 			if(stride < len) {
 				state.buflen = len;
 				state.stride = stride;
-				printf("buflen = %6luKB\tstride = %6lu\tL1 Cache Latency: %lfns\n", len >> 10, stride, get_cache_latency(&state));
+				printf("buflen = %6luKB\tstride = %6lu\tL3 Cache Latency: %lfns\n", len >> 10, stride, get_cache_latency(&state));
 			}
 		}
 		printf("=====================\n");
@@ -155,7 +157,7 @@ void bench_cache_latency() {
 	printf("\nbenchmark on Cache Latency\n");
 	printf("-------------------------------------\n");
 
-	bench_l1_latency();
+	bench_l3_latency();
 
 	printf("\n--------------end--------------------\n");
 }
