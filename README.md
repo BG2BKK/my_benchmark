@@ -25,6 +25,11 @@
 
 ## Memory 带宽
 
+> ThinkdPad-X220，搭配intel i5-2520M CPU，操作系统为Ubuntu 16.10 64bit
+> L1 Cache 32KB		8路组相连 64B Cache line
+> L2 Cache 256KB	8路组相连 64B Cache line
+> L3 Cache 3072KB	12路组相连 64B Cache line
+
 ### 读内存
 
 测试内存带宽的意义在于衡量计算机系统内，从主存中，经过各级存储和缓存将数据读到CPU的能力。在测试内存带宽的过程中，采用不同大小的数据块，将数据块内每个元素读入CPU，进行测试，可以大致得出各级存储的带宽。
@@ -161,16 +166,15 @@ blocksize:  131072KB	bandwidth of pipe: 2350.025244 MB/s
 * getppid
 	* 获取父进程pid
 
-* [system call 详解](http://www.chongh.wiki/blog/2016/04/08/linux-syscalls/)
+### write/read 
 
-
-# benchmark 结果
-
-### 在ThinkdPad-X220，搭配intel i5-2520M CPU，操作系统为Ubuntu 16.10 64bit
+* read /dev/zero
+	* 从设备/dev/zero读一个字节
+* write /dev/null
+	* 向设备/dev/null写入一个字节
+	* 由于大部分操作系统都没有对这两个设备进行优化，所以向/dev/null写入一个字节可以测量纯粹的write调用，从用户进程切入内核态，调用VFS层，无缓冲区的写入设备。
 
 ```bash
-loop cost: 0.006350us	clock func cost: 0.030847us
-
 benchmark on Operating system entry
 ===================================
 getpid() cost: 0.006010us
@@ -179,25 +183,87 @@ write 1 byte to /dev/null cost: 0.086910us
 read 1 byte from /dev/zero cost: 0.123290us
 
 --------------end------------------
+```
+* [system call 详解](http://www.chongh.wiki/blog/2016/04/08/linux-syscalls/)
 
-benchmark on Creating Process
-===================================
-fork+exit cost: 72.923700us
-fork+exec cost: 306.169600us
-swap_ucontext cost: 0.421900us
 
---------------end------------------
+## Process Creation
 
-benchmark on Bandwidth of Pipe
-===================================
-bandwidth of pipe: 1956.343357 MB/s
+* fork创建进程
+	* fork + exit
+		* 创建子进程后立刻exit，用以衡量fork()这一过程用时
+	* fork + exec
+		* 创建子进程后，子进程调用execve执行另外一个程序，该程序打印"hello world"后退出
+	* swap_ucontext
+		* 采用ucontext保存当前处理器状态，切换到另一个ucontext状态，然后再切换回来
 
---------------end------------------
+## Memory Latency
+
+目前常见的x64 Linux Server都具有 L1/L2/L3/Main Memory四级存储
+
+### L1 Cache Latency
+
+本机具有32KB L1 Cache，采用可以全部填充进L1 Cache的内存块，[可以统计计算出L1 Cache的访问速度；](https://bg2bkk.github.io/post/how%20to%20perform%20server%20performance%20evaluation/)
+
+由下表可以看出，内存块大小在32KB和64KB间延时明显增大，结合本机的32KB L1 Cache可以得出结论 L1 Cache的latency为1.338ns，约合4个cpu cycle（本机主频可达3GHz），这与intel芯片手册相符。
+
+```bash
+benchmark on Cache Latency
+-------------------------------------
+buflen =     1KB	stride =    64	L1 Cache Latency: 1.337800ns
+buflen =     4KB	stride =    64	L1 Cache Latency: 1.337700ns
+buflen =    16KB	stride =    64	L1 Cache Latency: 1.337700ns
+buflen =    32KB	stride =    64	L1 Cache Latency: 1.338300ns
+buflen =    48KB	stride =    64	L1 Cache Latency: 4.030900ns
+buflen =    64KB	stride =    64	L1 Cache Latency: 4.042000ns
+buflen =   192KB	stride =    64	L1 Cache Latency: 4.162100ns
+buflen =   320KB	stride =    64	L1 Cache Latency: 4.429900ns
+buflen =   448KB	stride =    64	L1 Cache Latency: 4.574200ns
+buflen =   576KB	stride =    64	L1 Cache Latency: 4.589900ns
+buflen =   832KB	stride =    64	L1 Cache Latency: 4.593400ns
+=====================
+buflen =     4KB	stride =  1024	L1 Cache Latency: 1.337700ns
+buflen =    16KB	stride =  1024	L1 Cache Latency: 1.337700ns
+buflen =    32KB	stride =  1024	L1 Cache Latency: 1.337800ns
+buflen =    48KB	stride =  1024	L1 Cache Latency: 4.022400ns
+buflen =    64KB	stride =  1024	L1 Cache Latency: 4.016500ns
+buflen =   192KB	stride =  1024	L1 Cache Latency: 5.033400ns
+buflen =   320KB	stride =  1024	L1 Cache Latency: 7.959200ns
+buflen =   448KB	stride =  1024	L1 Cache Latency: 9.424500ns
+buflen =   576KB	stride =  1024	L1 Cache Latency: 9.396900ns
+buflen =   832KB	stride =  1024	L1 Cache Latency: 9.397800ns
+=====================
+buflen =    16KB	stride =  4096	L1 Cache Latency: 1.337800ns
+buflen =    32KB	stride =  4096	L1 Cache Latency: 1.337800ns
+buflen =    48KB	stride =  4096	L1 Cache Latency: 4.021300ns
+buflen =    64KB	stride =  4096	L1 Cache Latency: 4.008100ns
+buflen =   192KB	stride =  4096	L1 Cache Latency: 4.411000ns
+buflen =   320KB	stride =  4096	L1 Cache Latency: 8.380600ns
+buflen =   448KB	stride =  4096	L1 Cache Latency: 9.362800ns
+buflen =   576KB	stride =  4096	L1 Cache Latency: 9.376100ns
+buflen =   832KB	stride =  4096	L1 Cache Latency: 9.402000ns
+=====================
+buflen =    16KB	stride =  8192	L1 Cache Latency: 1.337900ns
+buflen =    32KB	stride =  8192	L1 Cache Latency: 1.337700ns
+buflen =    48KB	stride =  8192	L1 Cache Latency: 1.337700ns
+buflen =    64KB	stride =  8192	L1 Cache Latency: 1.337800ns
+buflen =   192KB	stride =  8192	L1 Cache Latency: 4.021700ns
+buflen =   320KB	stride =  8192	L1 Cache Latency: 4.025100ns
+buflen =   448KB	stride =  8192	L1 Cache Latency: 6.283900ns
+buflen =   576KB	stride =  8192	L1 Cache Latency: 8.047600ns
+buflen =   832KB	stride =  8192	L1 Cache Latency: 8.372600ns
+=====================
+
+--------------end--------------------
 ```
 
+### L2 Cache Latency
+
+### L3 Cache Latency
 
 TODO
 ------------------
 
 * measure Cache line
 * measure TLB 
+

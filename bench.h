@@ -25,6 +25,7 @@ typedef struct bw_result {
 typedef void (*bench_f)();
 
 unsigned long get_total_us(struct timespec *st, struct timespec *ed);
+unsigned long get_total_ns(struct timespec *st, struct timespec *ed);
 double get_latency(unsigned long elapse, int loop);
 int cmp_result(const void *p1, const void *p2);
 void save_result(result_t *ret, int index, unsigned long elapse, int loop);

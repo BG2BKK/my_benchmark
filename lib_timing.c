@@ -1,5 +1,9 @@
 #include "bench.h"
-
+unsigned long get_total_ns(struct timespec *st, struct timespec *ed) {
+	unsigned long elapse = (ed->tv_sec - st->tv_sec) * 1000000000 
+								+ (ed->tv_nsec - st->tv_nsec);
+	return elapse;
+}
 unsigned long get_total_us(struct timespec *st, struct timespec *ed) {
 	unsigned long elapse = (ed->tv_sec - st->tv_sec) * 1000000 
 								+ (ed->tv_nsec - st->tv_nsec)/1000;
