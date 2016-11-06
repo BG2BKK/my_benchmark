@@ -8,6 +8,7 @@
 	* Memory
 		* read
 		* write
+		* copy
 	* Pipe 
 		* interact with parent and child process
 
@@ -22,6 +23,10 @@
 		* read/write via VFS
 			* read /dev/zero
 			* write /dev/null
+	* 内存子系统时延
+		* L1 Cache Latency
+		* L2 Cache Latency
+		* L3 Cache Latency
 
 ## Memory 带宽
 
@@ -43,12 +48,6 @@
 * 目前存在的顾虑
 	* 数据块4KB大小时的测试带宽是74036MB/s，~~平均每ns读取78Byte，对于睿频达3GHz的CPU而言，相当于每个cycle读取26B，如何解释呢，~~ CPU每次从L1 Cache读取数据以cache line为单位
 	* 做bench过程中，各级存储是怎样起作用的，毕竟系统总线PCIE也才10GB/s的带宽，测试达到这个数据量的话一定是cache起到很大作用
-
-* 读内存过程
-	* [CPU读数据的一系列过程](http://yuhaozhu.com/CacheMemory.pdf)
-	* [What Your Computer Dos While You Wait](http://duartes.org/gustavo/blog/post/what-your-computer-does-while-you-wait/)
-	* [译文](http://www.cnblogs.com/xkfz007/archive/2012/10/08/2715163.html)
-	* [intel: Cache相关的问题](https://software.intel.com/sites/default/files/m/1/1/7/0/a/12645-6.7__Cache_e7_9b_b8_e5_85_b3_e9_97_ae_e9_a2_98.pdf)
 
 * 写内存带宽
 
@@ -100,6 +99,24 @@ benchmark on Bandwidth of Memory
 	blocksize:   65536KB	bandwidth of mem write: 9885.314901 MB/s
 	blocksize:  131072KB	bandwidth of mem write: 9905.204101 MB/s
 
+	Bandwidth of Memory Copy
+
+	blocksize:       4KB	bandwidth of mem copy: 23679.038039 MB/s
+	blocksize:       8KB	bandwidth of mem copy: 23963.306187 MB/s
+	blocksize:      16KB	bandwidth of mem copy: 22988.505747 MB/s
+	blocksize:      32KB	bandwidth of mem copy: 21537.037816 MB/s
+	blocksize:      64KB	bandwidth of mem copy: 21261.575516 MB/s
+	blocksize:     128KB	bandwidth of mem copy: 20395.968609 MB/s
+	blocksize:     256KB	bandwidth of mem copy: 13415.784509 MB/s
+	blocksize:     512KB	bandwidth of mem copy: 13412.094461 MB/s
+	blocksize:    1024KB	bandwidth of mem copy: 11705.265083 MB/s
+	blocksize:    2048KB	bandwidth of mem copy: 7406.871609 MB/s
+	blocksize:    4096KB	bandwidth of mem copy: 6369.426752 MB/s
+	blocksize:    8192KB	bandwidth of mem copy: 6320.636508 MB/s
+	blocksize:   16384KB	bandwidth of mem copy: 6156.065889 MB/s
+	blocksize:   32768KB	bandwidth of mem copy: 6200.686678 MB/s
+	blocksize:   65536KB	bandwidth of mem copy: 6317.322048 MB/s
+	blocksize:  131072KB	bandwidth of mem copy: 6446.414182 MB/s
 ```
 
 ## Pipe带宽
@@ -197,6 +214,18 @@ read 1 byte from /dev/zero cost: 0.123290us
 	* swap_ucontext
 		* 采用ucontext保存当前处理器状态，切换到另一个ucontext状态，然后再切换回来
 
+```bash
+loop cost: 0.006350us	clock func cost: 0.030847us
+
+benchmark on Creating Process
+===================================
+fork+exit cost: 72.923700us
+fork+exec cost: 306.169600us
+swap_ucontext cost: 0.421900us
+
+--------------end------------------
+```
+
 ## Memory Latency
 
 目前常见的x64 Linux Server都具有 L1/L2/L3/Main Memory四级存储
@@ -266,4 +295,5 @@ TODO
 
 * measure Cache line
 * measure TLB 
+
 
