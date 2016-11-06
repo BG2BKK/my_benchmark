@@ -90,6 +90,11 @@ double get_bw_mem(mem_state_t *state) {
 }
 
 void bench_bandwidth_mem() {
+
+	printf("\nbenchmark on Bandwidth of Memory\n");
+	printf("-------------------------------------\n\n");
+
+	printf("\tBandwidth of Memory Read\n\n");
 	mem_state_t state;
 	state.prepare = do_mem_prepare;
 	state.bench	= do_mem_rd;
@@ -97,8 +102,7 @@ void bench_bandwidth_mem() {
 
 	for(size_t len = 4*1024; len < 256*1024*1024; len = len << 1) {
 		state.bufsize = len;
-		printf("blocksize: %7ldKB\tbandwidth of mem read: %lf MB/s\n", len>>10, get_bw_mem(&state));
+		printf("\tblocksize: %7ldKB\tbandwidth of mem read: %lf MB/s\n", len>>10, get_bw_mem(&state));
 	}
-
-
+	printf("\n");
 }

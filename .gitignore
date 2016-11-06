@@ -4,5 +4,6 @@
 *.o
 *out
 *core
+*.s
 
 *node_modules/

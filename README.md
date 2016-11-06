@@ -19,6 +19,44 @@
 			* read /dev/zero
 			* write /dev/null
 
+## Memory 带宽
+
+### 读内存
+
+测试内存带宽的意义在于衡量计算机系统内，从主存中，经过各级存储和缓存将数据读到CPU的能力。在测试内存带宽的过程中，采用不同大小的数据块，将数据块内每个元素读入CPU，进行测试，可以大致得出各级存储的带宽。
+
+下表是Memory Read的读性能，可以看到当数据块大小为4KB~32KB时，带宽明显高于64KB数据块，因为当前CPU的L1 Cache大小为32KB，使用较小数据块时，尤其在循环读写的过程中，可以充分享受L1 Cache带来的红利；一旦数据块大小超过L2 Cache，由于L1 Cache发生Conlict，带宽下降；随后在数据块大小达到L2 Cache的256KB和L3 Cache的3072KB时都会有带宽的跳变；由于L1和L2关系亲密，访问速度和容量的差别在10倍以内，所以L1 miss时L2可以将数据稳定在50000MB/s；而当数据接近L3 Cache时，由于L3访问速度慢，且容量较大，因此此时较多的体现的是L3的速度，并且在数据块增大并较多的引起高速缓存失效时，访问带宽接近于从主存中读取数据。
+
+
+```bash
+benchmark on Bandwidth of Memory
+-------------------------------------
+
+
+	Bandwidth of Memory Read
+
+	blocksize:       4KB	bandwidth of mem read: 74036.584484 MB/s
+	blocksize:       8KB	bandwidth of mem read: 74990.845844 MB/s
+	blocksize:      16KB	bandwidth of mem read: 73919.006713 MB/s
+	blocksize:      32KB	bandwidth of mem read: 71869.736103 MB/s
+	blocksize:      48KB	bandwidth of mem read: 50845.840161 MB/s
+	blocksize:      64KB	bandwidth of mem read: 50965.558431 MB/s
+	blocksize:     128KB	bandwidth of mem read: 51501.282503 MB/s
+	blocksize:     192KB	bandwidth of mem read: 49226.035775 MB/s
+	blocksize:     256KB	bandwidth of mem read: 41491.085900 MB/s
+	blocksize:     512KB	bandwidth of mem read: 31507.692308 MB/s
+	blocksize:    1024KB	bandwidth of mem read: 31075.503763 MB/s
+	blocksize:    2048KB	bandwidth of mem read: 26670.139341 MB/s
+	blocksize:    2560KB	bandwidth of mem read: 22759.090370 MB/s
+	blocksize:    3072KB	bandwidth of mem read: 19567.377495 MB/s
+	blocksize:    4096KB	bandwidth of mem read: 17341.236240 MB/s
+	blocksize:    8192KB	bandwidth of mem read: 16377.449020 MB/s
+	blocksize:   16384KB	bandwidth of mem read: 16633.637634 MB/s
+	blocksize:   32768KB	bandwidth of mem read: 16737.222340 MB/s
+	blocksize:   65536KB	bandwidth of mem read: 16818.868668 MB/s
+	blocksize:  131072KB	bandwidth of mem read: 16860.962919 MB/s
+```
+
 ## Pipe带宽
 
 * pipe带宽的瓶颈点主要在于写操作，在单次写数据超过64KB时，带宽出现拐点；高版本的Linux Kernel中，Pipe的大小可以扩充为最大64KB，所以在单次写入pipe时以64KB为单位可以获得最大性能；read对pipe的性能影响不大；接下来还需要将pipe通信双方进程绑定到不同CPU上，减少内存切换。
@@ -104,3 +142,4 @@ bandwidth of pipe: 1956.343357 MB/s
 
 --------------end------------------
 ```
+
