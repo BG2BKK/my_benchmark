@@ -35,6 +35,11 @@
 	* 由于L1和L2关系亲密，访问速度和容量的差别在10倍以内，所以L1 miss时L2可以将数据稳定在50000MB/s；
 	* 而当数据接近L3 Cache时，由于L3访问速度慢，且容量较大，因此此时较多的体现的是L3的速度，并且在数据块增大并较多的引起高速缓存失效时，访问带宽接近于从主存中读取数据。
 
+* 读内存过程
+	* [CPU读数据的一系列过程](http://yuhaozhu.com/CacheMemory.pdf)
+	* [What Your Computer Dos While You Wait](http://duartes.org/gustavo/blog/post/what-your-computer-does-while-you-wait/)
+	* [译文](http://www.cnblogs.com/xkfz007/archive/2012/10/08/2715163.html)
+
 * 写内存带宽
 
 ```bash
